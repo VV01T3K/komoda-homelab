@@ -1,0 +1,47 @@
+services:
+  adguard:
+    container_name: adguard
+    hostname: adguard
+    image: adguard/adguardhome:latest
+    networks:
+      - dns_net
+      - proxy
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 9053:9053
+    environment:
+      TZ: Europe/Warsaw
+    volumes:
+      - ./adguard/work:/opt/adguardhome/work
+      - ./adguard/conf:/opt/adguardhome/conf
+    depends_on:
+      adguard-config-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    labels:
+      caddy: adguard.lab.wsiwiec.com
+      caddy.reverse_proxy: "{{upstreams 9053}}"
+  adguard-config-init:
+    build: ./adguard/config-init
+    environment:
+      ADGUARD_USER: ${ADGUARD_USER}
+      ADGUARD_PASSWORD: ${ADGUARD_PASSWORD}
+    volumes:
+      - ./adguard/AdGuardHome.template.yaml:/template/AdGuardHome.template.yaml:ro
+      - ./adguard/conf:/config
+    restart: no
+
+  unbound:
+    container_name: unbound
+    image: mvance/unbound:latest
+    networks:
+      - dns_net
+    volumes:
+      - ./unbound:/opt/unbound/etc/unbound
+    restart: unless-stopped
+
+networks:
+  dns_net:
+  proxy:
+    external: true

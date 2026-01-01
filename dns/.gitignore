@@ -1,0 +1,5 @@
+adguard/conf
+adguard/work
+unbound/dev
+unbound/var
+unbound/unbound.pid

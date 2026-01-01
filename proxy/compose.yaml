@@ -1,0 +1,89 @@
+services:
+  caddy:
+    container_name: caddy
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - caddy-config
+    env_file:
+      - .env
+    environment:
+      CADDY_INGRESS_NETWORKS: proxy
+      CADDY_DOCKER_POLLING_INTERVAL: 5s
+      ACME_AGREE: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./caddy/data:/data/caddy #👈 where to save SSL certs
+      - ./caddy/config:/config/caddy #👈 where to save configs
+    networks:
+      - proxy
+    security_opt:
+      - no-new-privileges=true
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp
+    extra_hosts:
+      - host.docker.internal:host-gateway
+  caddy-config:
+    container_name: caddy-config
+    image: traefik/whoami:latest
+    env_file:
+      - .env
+    networks:
+      - proxy
+    restart: unless-stopped
+    labels:
+      #############################################
+      # Settings and snippets to get things working
+      # You shouldn't need to modify this normally
+      # Custom settings and definitions are below
+      #############################################
+
+      #### Global Settings ####
+      caddy_0.email: "{env.EMAIL}"
+      caddy_0.auto_https: prefer_wildcard
+      #### Snippets ####
+      # Get wildcard certificate
+      caddy_1: (wildcard)
+      caddy_1.tls.dns: cloudflare {env.CF_API_TOKEN}
+      # caddy_1.tls.ca: https://acme-staging-v02.api.letsencrypt.org/directory # 👈 Staging
+      caddy_1.tls.resolvers: 1.1.1.1 1.0.0.1
+      caddy_1.handle.abort: ""
+      # Skip TLS verify for backend with self-signed HTTPS
+      caddy_3: (https)
+      caddy_3.transport: http
+      caddy_3.transport.tls: ""
+      caddy_3.transport.tls_insecure_skip_verify: ""
+      ###########################################
+      # Custom settings. Modify things below 👇:
+      # Make sure they have unique label numbers
+      ###########################################
+
+      # Custom global settings, add/edit as needed
+      # caddy_0.log: default
+      # caddy_0.log.format: console
+
+      # Uncomment this during testing to avoid hitting rate limit.
+      # It will try to obtain SSL from Let's Encrypt's staging endpoint.
+
+      ## Setup wildcard sites
+      caddy_10: "*.lab.wsiwiec.com" #👈 Change to your domain
+      caddy_10.import: wildcard
+      # Add our first site, which this container itself
+      caddy_99: whoami.lab.wsiwiec.com #👈 Subdomain using wildcard cert
+      caddy_99.reverse_proxy: "{{upstreams 80}}" #👈 Container port
+
+      caddy_100: komodo.lab.wsiwiec.com
+      caddy_100.reverse_proxy: 0.lab.wsiwiec.com:9120
+
+      caddy_101: openwrt.lab.wsiwiec.com
+      caddy_101.reverse_proxy: openwrt.raw.lab.wsiwiec.com
+
+      caddy_102: proxmox.lab.wsiwiec.com
+      caddy_102.reverse_proxy.import: https
+      caddy_102.reverse_proxy: proxmox.raw.lab.wsiwiec.com:8006
+
+networks:
+  proxy:
+    external: true

@@ -1,0 +1,13 @@
+# Ensure shell scripts always use LF line endings
+*.sh text eol=lf
+
+# Ensure Dockerfiles use LF line endings
+Dockerfile text eol=lf
+**/Dockerfile text eol=lf
+
+# Ensure YAML files use LF line endings (for consistency in Docker containers)
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# Auto-detect text files and normalize line endings to LF on commit
+* text=auto eol=lf
