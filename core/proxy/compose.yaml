@@ -74,15 +74,21 @@ services:
       caddy_99: whoami.lab.wsiwiec.com #👈 Subdomain using wildcard cert
       caddy_99.reverse_proxy: "{{upstreams 80}}" #👈 Container port
 
-      caddy_100: komodo.lab.wsiwiec.com
-      caddy_100.reverse_proxy: 0.lab.wsiwiec.com:9120
+      caddy_200: komodo.core.lab.wsiwiec.com
+      caddy_200.reverse_proxy: core.lab.wsiwiec.com:9120
 
-      caddy_101: openwrt.lab.wsiwiec.com
-      caddy_101.reverse_proxy: openwrt.raw.lab.wsiwiec.com
+      caddy_201: komodo.internum.lab.wsiwiec.com
+      caddy_201.reverse_proxy: internum.lab.wsiwiec.com:9120
 
-      caddy_102: proxmox.lab.wsiwiec.com
-      caddy_102.reverse_proxy.import: https
-      caddy_102.reverse_proxy: proxmox.raw.lab.wsiwiec.com:8006
+      caddy_202: komodo.externum.lab.wsiwiec.com
+      caddy_202.reverse_proxy: externum.lab.wsiwiec.com:9120
+
+      caddy_300: openwrt.lab.wsiwiec.com
+      caddy_300.reverse_proxy: openwrt.raw.lab.wsiwiec.com
+
+      caddy_301: proxmox.lab.wsiwiec.com
+      caddy_301.reverse_proxy.import: https
+      caddy_301.reverse_proxy: proxmox.raw.lab.wsiwiec.com:8006
 
 networks:
   proxy:

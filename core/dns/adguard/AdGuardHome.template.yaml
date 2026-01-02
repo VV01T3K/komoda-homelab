@@ -244,29 +244,41 @@ filtering:
     - domain: proxmox.raw.lab.wsiwiec.com
       answer: 10.0.0.2
       enabled: true
-    - domain: 0.lab.wsiwiec.com
+    - domain: core.lab.wsiwiec.com
       answer: 10.0.0.53
       enabled: true
+    - domain: internum.lab.wsiwiec.com
+      answer: 10.1.0.100
+      enabled: true
+    - domain: externum.lab.wsiwiec.com
+      answer: 10.2.0.100
+      enabled: true
     - domain: adguard.lab.wsiwiec.com
-      answer: 0.lab.wsiwiec.com
+      answer: core.lab.wsiwiec.com
       enabled: true
     - domain: openwrt.lab.wsiwiec.com
-      answer: 0.lab.wsiwiec.com
+      answer: core.lab.wsiwiec.com
       enabled: true
     - domain: proxmox.lab.wsiwiec.com
-      answer: 0.lab.wsiwiec.com
+      answer: core.lab.wsiwiec.com
       enabled: true
     - domain: komodo.lab.wsiwiec.com
-      answer: 0.lab.wsiwiec.com
+      answer: core.lab.wsiwiec.com
       enabled: true
     - domain: whoami.lab.wsiwiec.com
-      answer: 0.lab.wsiwiec.com
+      answer: core.lab.wsiwiec.com
       enabled: true
     - domain: lab.wsiwiec.com
-      answer: 10.1.0.100
+      answer: internum.lab.wsiwiec.com
       enabled: true
     - domain: "*.lab.wsiwiec.com"
-      answer: 10.1.0.100
+      answer: internum.lab.wsiwiec.com
+      enabled: true
+    - domain: wsiwiec.com
+      answer: externum.lab.wsiwiec.com
+      enabled: true
+    - domain: "*.wsiwiec.com"
+      answer: externum.lab.wsiwiec.com
       enabled: true
   safe_fs_patterns:
     - /opt/adguardhome/work/data/userfilters/*
