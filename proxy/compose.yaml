@@ -47,7 +47,7 @@ services:
       # Get wildcard certificate
       caddy_1: (wildcard)
       caddy_1.tls.dns: cloudflare {env.CF_API_TOKEN}
-      # caddy_1.tls.ca: https://acme-staging-v02.api.letsencrypt.org/directory # 👈 Staging
+      caddy_1.tls.ca: https://acme-staging-v02.api.letsencrypt.org/directory # 👈 Staging
       caddy_1.tls.resolvers: 1.1.1.1 1.0.0.1
       caddy_1.handle.abort: ""
       # Skip TLS verify for backend with self-signed HTTPS
