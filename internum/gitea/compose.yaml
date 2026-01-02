@@ -1,0 +1,47 @@
+services:
+  gitea:
+    image: gitea/gitea:1.25-rootless
+    container_name: gitea
+    restart: unless-stopped
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__server__ROOT_URL=${GITEA_ROOT_URL:-https://gitea.lab.wsiwiec.com/}
+      - GITEA__server__HTTP_PORT=3000
+      - GITEA__server__SSH_PORT=22
+      - GITEA__server__SSH_LISTEN_PORT=2222
+      - GITEA__database__DB_TYPE=sqlite3
+      - GITEA__actions__ENABLED=true
+    volumes:
+      - ./data:/var/lib/gitea
+      - ./config:/etc/gitea
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - proxy
+    ports:
+      - 2137:2222
+    labels:
+      caddy: gitea.lab.wsiwiec.com
+      caddy.reverse_proxy: "{{upstreams 3000}}"
+  gitea-runner:
+    image: gitea/act_runner:latest
+    container_name: gitea-runner
+    restart: unless-stopped
+    environment:
+      - CONFIG_FILE=/config.yaml
+      - GITEA_INSTANCE_URL=http://gitea:3000
+      - GITEA_RUNNER_REGISTRATION_TOKEN=${GITEA_RUNNER_REGISTRATION_TOKEN}
+      - GITEA_RUNNER_NAME=local-runner-0
+    volumes:
+      - ./runner-config.yaml:/config.yaml
+      - ./runner-data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - proxy
+    depends_on:
+      - gitea
+
+networks:
+  proxy:
+    external: true

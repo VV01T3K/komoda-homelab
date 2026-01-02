@@ -1,0 +1,114 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/services/
+
+# - My First Group:
+#     - My First Service:
+#         href: http://localhost/
+#         description: Homepage is awesome
+
+# - My Second Group:
+#     - My Second Service:
+#         href: http://localhost/
+#         description: Homepage is the best
+
+# - My Third Group:
+#     - My Third Service:
+#         href: http://localhost/
+#         description: Homepage is 😎
+
+- Development & Automation:
+    - Gitea:
+        icon: gitea.png
+        href: https://gitea.lab.wsiwiec.com
+        description: Git service
+        server: local
+        container: gitea
+        widget:
+          type: gitea
+          url: https://gitea.lab.wsiwiec.com
+          # Add API key in .env file: HOMEPAGE_VAR_GITEA_TOKEN=your-token
+          # key: {{HOMEPAGE_VAR_GITEA_TOKEN}}
+
+    - n8n:
+        icon: n8n.png
+        href: https://n8n.lab.wsiwiec.com
+        description: Workflow automation
+        server: local
+        container: n8n
+
+    # - Dockge:
+    #     icon: dockge.png
+    #     href: https://dockge.lab.wsiwiec.com
+    #     description: Docker compose management
+    #     server: local
+    #     container: dockge
+
+- AI & Tools:
+    - Ollama:
+        icon: ollama.png
+        href: https://ollama.lab.wsiwiec.com
+        description: Local LLM runtime
+        server: local
+        container: ollama
+
+    - Open WebUI:
+        icon: open-webui.png
+        href: https://openwebui.lab.wsiwiec.com
+        description: AI chat interface
+        server: local
+        container: openwebui
+
+    - Llama:
+        icon: si-llama
+        href: https://llama.lab.wsiwiec.com
+        description: Llama server
+        server: local
+        container: llama
+
+    - Excalidraw:
+        icon: excalidraw.png
+        href: https://excalidraw.lab.wsiwiec.com
+        description: Virtual whiteboard
+        server: local
+        container: excalidraw
+
+- Monitoring & Security:
+    - Uptime Kuma:
+        icon: uptime-kuma.png
+        href: https://uptime.lab.wsiwiec.com
+        description: Uptime monitoring
+        server: local
+        container: uptime-kuma
+        widget:
+          type: uptimekuma
+          url: https://uptime-kuma.lab.wsiwiec.com
+          slug: default
+
+    - Beszel:
+        icon: si-target
+        href: https://beszel.lab.wsiwiec.com
+        description: System monitoring
+        server: local
+        container: beszel
+        widget:
+          type: beszel
+          url: http://beszel:8090
+          # Add API key in .env file: HOMEPAGE_VAR_BESZEL_KEY=your-key
+          # key: {{HOMEPAGE_VAR_BESZEL_KEY}}
+
+    - Authelia:
+        icon: authelia.png
+        href: https://auth.lab.wsiwiec.com
+        description: Authentication & SSO
+        server: local
+        container: authelia
+
+    - Caddy:
+        icon: caddy.png
+        description: Reverse proxy
+        server: local
+        container: caddy
+        widget:
+          type: caddy
+          url: http://caddy:2019

@@ -1,0 +1,14 @@
+route /custom-assets/* {
+    uri strip_prefix /custom-assets
+    root * /snip/n8n/assets
+    file_server
+}
+
+request_header Accept-Encoding identity
+
+replace stream {
+    "</noscript>" `</noscript>
+    <link rel="stylesheet" href="/custom-assets/custom.css">
+    <script src="/custom-assets/custom.js" defer></script>
+    <script>console.log("n8n custom theme applied via Caddy snippet.");</script>`
+}

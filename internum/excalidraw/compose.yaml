@@ -1,0 +1,13 @@
+services:
+  excalidraw:
+    image: excalidraw/excalidraw:latest
+    restart: unless-stopped
+    networks:
+      - proxy
+    labels:
+      caddy: excalidraw.lab.wsiwiec.com #👈 Subdomain using wildcard cert
+      caddy.reverse_proxy: "{{upstreams 80}}" #👈 Container port
+
+networks:
+  proxy:
+    external: true

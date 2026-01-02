@@ -1,0 +1,25 @@
+services:
+  crowdsec:
+    container_name: crowdsec
+    hostname: crowdsec
+    image: crowdsecurity/crowdsec:latest
+    env_file:
+      - .env
+    restart: unless-stopped
+    environment:
+      COLLECTIONS: "crowdsecurity/caddy crowdsecurity/http-cve crowdsecurity/whitelist-good-actors"
+      BOUNCER_KEY_CADDY: ${CROWDSEC_API_KEY}
+    volumes:
+      - ./crowdsec/acquis.yaml:/etc/crowdsec/acquis.yaml
+      - ./crowdsec/db:/var/lib/crowdsec/data/
+      - ./crowdsec/config:/etc/crowdsec/
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - crowdsec
+    security_opt:
+      - no-new-privileges=true
+
+networks:
+  crowdsec:
+    external: false
+    name: crowdsec

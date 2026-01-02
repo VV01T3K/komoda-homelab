@@ -1,0 +1,47 @@
+services:
+  n8n:
+    build:
+      context: .
+      dockerfile: Dockerfile.n8n
+    container_name: n8n
+    volumes:
+      - ./data:/home/node/.n8n
+    restart: unless-stopped
+    networks:
+      - proxy
+      - backend
+    environment:
+      N8N_COMMUNITY_PACKAGES_ENABLED: true
+      N8N_EDITOR_BASE_URL: https://n8n.lab.wsiwiec.com
+      WEBHOOK_URL: https://n8n.lab.wsiwiec.com
+      # N8N_CUSTOM_EXTENSIONS: /home/node/.n8n/custom
+    labels:
+      caddy: n8n.lab.wsiwiec.com
+      caddy.import: /snip/n8n/n8n.caddy
+      caddy.reverse_proxy: "{{upstreams 5678}}"
+  valkey:
+    image: valkey/valkey:9-alpine
+    container_name: valkey_n8n
+    restart: unless-stopped
+    volumes:
+      - valkey_data:/data
+  qdrant:
+    image: qdrant/qdrant:latest-unprivileged
+    container_name: qdrant_n8n
+    restart: unless-stopped
+    networks:
+      - backend
+      - proxy
+    volumes:
+      - qdrant_data:/qdrant/storage
+    labels:
+      caddy: qdrant.lab.wsiwiec.com
+      caddy.reverse_proxy: "{{upstreams 6333}}"
+volumes:
+  valkey_data: null
+  qdrant_data: null
+networks:
+  backend:
+    external: true
+  proxy:
+    external: true

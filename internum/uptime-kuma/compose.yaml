@@ -1,0 +1,14 @@
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:2
+    restart: unless-stopped
+    volumes:
+      - ./data:/app/data
+    networks:
+      - proxy
+    labels:
+      caddy: uptime-kuma.lab.wsiwiec.com
+      caddy.reverse_proxy: "{{upstreams 3001}}"
+networks:
+  proxy:
+    external: true

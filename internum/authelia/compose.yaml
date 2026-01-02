@@ -1,0 +1,36 @@
+services:
+
+  authelia:
+    container_name: authelia
+    image: authelia/authelia:latest
+    restart: unless-stopped
+    networks:
+      - proxy
+    env_file:
+      - .env
+    expose:
+      - 9091
+    volumes:
+      - ./config:/config
+    labels:
+      caddy: auth.lab.wsiwiec.com #👈 Public facing subdomain of Authelia
+      caddy.reverse_proxy: "{{upstreams 9091}}" #👈 Authelia container port
+      caddy.import: /snip/authelia/Authelia.caddy #👈 Custom Authelia snippet
+
+  valkey:
+    image: valkey/valkey:alpine
+    container_name: valkey_authelia
+    volumes:
+      - valkey_data:/data
+    networks:
+      - proxy
+    expose:
+      - 6379
+    restart: unless-stopped
+
+volumes:
+  valkey_data: null
+
+networks:
+  proxy:
+    external: true

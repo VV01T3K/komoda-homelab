@@ -1,0 +1,1 @@
+manual instalation od komodo

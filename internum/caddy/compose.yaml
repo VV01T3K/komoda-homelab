@@ -1,0 +1,116 @@
+services:
+  caddy:
+    container_name: caddy
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      CADDY_INGRESS_NETWORKS: proxy
+      CADDY_DOCKER_POLLING_INTERVAL: 5s
+      ACME_AGREE: true
+      CROWDSEC_API_KEY: ${CROWDSEC_API_KEY}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./caddy/data:/data/caddy #👈 where to save SSL certs
+      - ./caddy/config:/config/caddy #👈 where to save configs
+      - ./caddy/snippets:/snip:ro #👈 custom snippets
+    networks:
+      - proxy
+      - crowdsec
+    security_opt:
+      - no-new-privileges=true
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp
+    extra_hosts:
+      - host.docker.internal:host-gateway
+  caddy-config:
+    container_name: caddy-config
+    image: traefik/whoami:latest
+    env_file:
+      - .env
+    networks:
+      - proxy
+      - crowdsec
+    restart: unless-stopped
+    labels:
+      #############################################
+      # Settings and snippets to get things working
+      # You shouldn't need to modify this normally
+      # Custom settings and definitions are below
+      #############################################
+
+      #### Global Settings ####
+      caddy_0.email: "{env.EMAIL}"
+      caddy_0.auto_https: prefer_wildcard
+      caddy_0.order: "crowdsec before forward_auth"
+      caddy_0.order_1: "crowdsec before reverse_proxy"
+      caddy_0.crowdsec: ""
+      caddy_0.crowdsec.api_url: "http://crowdsec:8080"
+      caddy_0.crowdsec.api_key: "{env.CROWDSEC_API_KEY}"
+      #### Snippets ####
+      # Get wildcard certificate
+      caddy_1: (wildcard)
+      caddy_1.tls.dns: cloudflare {env.CF_API_TOKEN}
+      # caddy_1.tls.ca: https://acme-staging-v02.api.letsencrypt.org/directory # 👈 Staging
+      caddy_1.tls.resolvers: 1.1.1.1 1.0.0.1
+      caddy_1.handle.abort: ""
+      # Secure a site with Authelia
+      caddy_2: (auth)
+      caddy_2.forward_auth: "{env.AUTH_HOST_INTERNAL}"
+      caddy_2.forward_auth.uri: /api/authz/forward-auth
+      caddy_2.forward_auth.copy_headers: Remote-User Remote-Groups Remote-Name Remote-Email
+      # Skip TLS verify for backend with self-signed HTTPS
+      caddy_3: (https)
+      caddy_3.transport: http
+      caddy_3.transport.tls: ""
+      caddy_3.transport.tls_insecure_skip_verify: ""
+      # CrowdSec protection
+      caddy_4: (crowdsec)
+      caddy_4.crowdsec: ""
+      # CrowdSec + Authelia protection (ordered)
+      caddy_5: (crowdsec_auth)
+      caddy_5.route: ""
+      caddy_5.route.0_crowdsec: "" #👈 CrowdSec blocks FIRST
+      caddy_5.route.1_forward_auth: "{env.AUTH_HOST_INTERNAL}" #👈 Auth runs SECOND
+      caddy_5.route.1_forward_auth.uri: /api/authz/forward-auth
+      caddy_5.route.1_forward_auth.copy_headers: Remote-User Remote-Groups Remote-Name Remote-Email
+      ###########################################
+      # Custom settings. Modify things below 👇:
+      # Make sure they have unique label numbers
+      ###########################################
+
+      # Custom global settings, add/edit as needed
+      # caddy_0.log: default
+      # caddy_0.log.format: console
+
+      # Uncomment this during testing to avoid hitting rate limit.
+      # It will try to obtain SSL from Let's Encrypt's staging endpoint.
+
+      ## Setup wildcard sites
+      caddy_10: "*.lab.wsiwiec.com" #👈 Change to your domain
+      caddy_10.import: wildcard
+      # Add our first site, which this container itself
+      caddy_99: whoami.lab.wsiwiec.com #👈 Subdomain using wildcard cert
+      caddy_99.route.import: crowdsec_auth #👈 Import snippet with correct order
+      caddy_99.route.reverse_proxy: "{{upstreams 80}}" #👈 Container port
+      # caddy_99.import: auth #👈 Import snippet with correct order
+      # caddy_99.reverse_proxy: "{{upstreams 80}}" #👈 Container port
+
+      caddy_100: pihole.lab.wsiwiec.com
+      caddy_100.reverse_proxy: pihole.raw.lab.wsiwiec.com
+
+      caddy_101: openwrt.lab.wsiwiec.com
+      caddy_101.reverse_proxy: openwrt.raw.lab.wsiwiec.com
+
+      caddy_102: proxmox.lab.wsiwiec.com
+      caddy_102.reverse_proxy.import: https
+      caddy_102.reverse_proxy: proxmox.raw.lab.wsiwiec.com:8006
+
+networks:
+  proxy:
+    external: true
+  crowdsec:
+    external: true

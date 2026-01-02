@@ -1,0 +1,55 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/info-widgets/
+
+# Greeting widget with dynamic time-based greetings
+- greeting:
+    text_size: xl
+    text: "Welcome to your Homelab"
+
+# Date and time widget
+- datetime:
+    text_size: l
+    format:
+      timeStyle: short
+      dateStyle: short
+
+# System resources monitoring
+- resources:
+    cpu: true
+    memory: true
+    disk: /
+    uptime: true
+    units: metric
+    expanded: true
+    label: System Resources
+
+# Search widget
+- search:
+    provider: duckduckgo
+    target: _blank
+    focus: true
+
+# Pi-hole DNS statistics
+- pihole:
+    url: https://pihole.lab.wsiwiec.com
+    key: {{HOMEPAGE_VAR_PIHOLE_API_KEY}}
+
+# Uptime Kuma monitoring
+- uptimekuma:
+    url: https://uptime-kuma.lab.wsiwiec.com
+    slug: default
+
+# Uncomment after setting up Proxmox API token in .env file
+# - proxmox:
+#     url: {{HOMEPAGE_VAR_PROXMOX_URL}}
+#     username: {{HOMEPAGE_VAR_PROXMOX_TOKEN}}
+#     password: {{HOMEPAGE_VAR_PROXMOX_SECRET}}
+
+# Uncomment to add weather widget (update with your coordinates)
+# - openmeteo:
+#     label: Weather
+#     latitude: 51.5074
+#     longitude: -0.1278
+#     units: metric
+#     cache: 5

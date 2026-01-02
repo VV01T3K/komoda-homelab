@@ -1,0 +1,11 @@
+---
+# Proxmox configuration using environment variables
+# Update the values in the .env file in the homepage directory
+# pve:
+#   url: https://proxmox.host.or.ip:8006
+#   token: username@pam!Token ID
+#   secret: secret
+pve:
+  url: {{HOMEPAGE_VAR_PROXMOX_URL}}
+  token: {{HOMEPAGE_VAR_PROXMOX_TOKEN}}
+  secret: {{HOMEPAGE_VAR_PROXMOX_SECRET}}
