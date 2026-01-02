@@ -270,16 +270,16 @@ filtering:
       enabled: true
     - domain: lab.wsiwiec.com
       answer: internum.lab.wsiwiec.com
-      enabled: true
-    - domain: "*.lab.wsiwiec.com"
-      answer: internum.lab.wsiwiec.com
-      enabled: true
+      enabled: false
     - domain: wsiwiec.com
       answer: externum.lab.wsiwiec.com
-      enabled: true
+      enabled: false
+    - domain: "*.lab.wsiwiec.com"
+      answer: 10.1.0.100
+      enabled: false
     - domain: "*.wsiwiec.com"
-      answer: externum.lab.wsiwiec.com
-      enabled: true
+      answer: 10.2.0.100
+      enabled: false
   safe_fs_patterns:
     - /opt/adguardhome/work/data/userfilters/*
   safebrowsing_cache_size: 1048576
