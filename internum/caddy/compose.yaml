@@ -54,7 +54,7 @@ services:
       # Get wildcard certificate
       caddy_1: (wildcard)
       caddy_1.tls.dns: cloudflare {env.CF_API_TOKEN}
-      # caddy_1.tls.ca: https://acme-staging-v02.api.letsencrypt.org/directory # 👈 Staging
+      caddy_1.tls.ca: https://acme-staging-v02.api.letsencrypt.org/directory # 👈 Staging
       caddy_1.tls.resolvers: 1.1.1.1 1.0.0.1
       caddy_1.handle.abort: ""
       # Secure a site with Authelia
@@ -93,21 +93,21 @@ services:
       caddy_10: "*.lab.wsiwiec.com" #👈 Change to your domain
       caddy_10.import: wildcard
       # Add our first site, which this container itself
-      caddy_99: whoami.lab.wsiwiec.com #👈 Subdomain using wildcard cert
+      caddy_99: whoami.internum.lab.wsiwiec.com #👈 Subdomain using wildcard cert
       caddy_99.route.import: crowdsec_auth #👈 Import snippet with correct order
       caddy_99.route.reverse_proxy: "{{upstreams 80}}" #👈 Container port
       # caddy_99.import: auth #👈 Import snippet with correct order
       # caddy_99.reverse_proxy: "{{upstreams 80}}" #👈 Container port
 
-      caddy_100: pihole.lab.wsiwiec.com
-      caddy_100.reverse_proxy: pihole.raw.lab.wsiwiec.com
+      # caddy_100: pihole.lab.wsiwiec.com
+      # caddy_100.reverse_proxy: pihole.raw.lab.wsiwiec.com
 
-      caddy_101: openwrt.lab.wsiwiec.com
-      caddy_101.reverse_proxy: openwrt.raw.lab.wsiwiec.com
+      # caddy_101: openwrt.lab.wsiwiec.com
+      # caddy_101.reverse_proxy: openwrt.raw.lab.wsiwiec.com
 
-      caddy_102: proxmox.lab.wsiwiec.com
-      caddy_102.reverse_proxy.import: https
-      caddy_102.reverse_proxy: proxmox.raw.lab.wsiwiec.com:8006
+      # caddy_102: proxmox.lab.wsiwiec.com
+      # caddy_102.reverse_proxy.import: https
+      # caddy_102.reverse_proxy: proxmox.raw.lab.wsiwiec.com:8006
 
 networks:
   proxy:

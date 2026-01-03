@@ -265,7 +265,7 @@ filtering:
     - domain: komodo.lab.wsiwiec.com
       answer: core.lab.wsiwiec.com
       enabled: true
-    - domain: whoami.lab.wsiwiec.com
+    - domain: whoami.core.lab.wsiwiec.com
       answer: core.lab.wsiwiec.com
       enabled: true
     - domain: lab.wsiwiec.com
