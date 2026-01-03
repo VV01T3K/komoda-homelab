@@ -17,6 +17,10 @@ services:
       - N8N_RUNNERS_BROKER_LISTEN_ADDRESS=0.0.0.0
       - N8N_RUNNERS_AUTH_TOKEN=your-secret-token-here-change-this
       - N8N_NATIVE_PYTHON_RUNNER=true
+      # Telemetry opt-out
+      - N8N_DIAGNOSTICS_ENABLED=false
+      # - N8N_VERSION_NOTIFICATIONS_ENABLED=false
+      # - N8N_TEMPLATES_ENABLED=false
     volumes:
       - n8n_data:/home/node/.n8n
       - ./data:/files
@@ -27,7 +31,7 @@ services:
       caddy.reverse_proxy: "{{upstreams 5678}}"
 
   n8n-task-runners:
-    image: n8nio/runners #match n8n version
+    image: n8nio/runners
     restart: unless-stopped
     environment:
       - N8N_RUNNERS_TASK_BROKER_URI=http://n8n:5679
