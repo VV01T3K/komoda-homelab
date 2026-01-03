@@ -1,0 +1,29 @@
+services:
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:latest
+    container_name: openwebui
+    restart: unless-stopped
+    networks:
+      - proxy
+      - backend
+    labels:
+      caddy: openwebui.lab.wsiwiec.com
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+    environment:
+      - ENABLE_OLLAMA_API=false
+      - OPENAI_API_BASE_URLS=http://llama-vulkan:8080/v1;http://llama-intel:8080/v1
+    #   - OLLAMA_BASE_URL=http://ollama:11434
+    volumes:
+      - openwebui:/app/backend/data
+
+volumes:
+  openwebui: null
+
+networks:
+  proxy:
+    external: true
+  backend:
+    external: true
+x-dockge:
+  urls:
+    - https://openwebui.lab.wsiwiec.com/

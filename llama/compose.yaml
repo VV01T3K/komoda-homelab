@@ -1,0 +1,30 @@
+services:
+  llama-vulkan:
+    image: ghcr.io/mostlygeek/llama-swap:vulkan
+    restart: unless-stopped
+    user: "10001:10001"
+    networks:
+      - proxy
+      - backend
+    volumes:
+      - ./models:/models
+      - ./config/config-vulkan.yaml:/app/config.yaml:ro
+      - llama-vulkan-cache:/app/.cache/llama.cpp
+    devices:
+      - /dev/dri:/dev/dri
+    labels:
+      caddy: llama.lab.wsiwiec.com
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+
+volumes:
+  llama-vulkan-cache:
+
+networks:
+  proxy:
+    external: true
+  backend:
+    external: true
+
+x-dockge:
+  urls:
+    - https://llama.lab.wsiwiec.com/ui

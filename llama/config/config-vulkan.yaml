@@ -1,0 +1,70 @@
+models:
+  "gemma-3-270m":
+    cmd: |
+      /app/llama-server
+      -hf unsloth/gemma-3-270m-it-GGUF:Q4_K_M
+      --port ${PORT}
+
+  "granite-4.0-h-tiny-7B":
+    cmd: |
+      /app/llama-server
+      -hf unsloth/granite-4.0-h-tiny-GGUF:Q4_K_M
+      --port ${PORT}
+      --temp 0.0
+      --top-p 1.0
+      --top-k 0
+      --ctx-size 16384
+  
+  "granite-4.0-h-1b":
+    cmd: |
+      /app/llama-server
+      -hf unsloth/granite-4.0-h-1b-GGUF:Q4_K_M
+      --port ${PORT}
+      --temp 0.0
+      --top-p 1.0
+      --top-k 0
+      --ctx-size 16384
+
+  # "granite-4.0-h-1b-gpu":
+  #   cmd: |
+  #     /app/llama-server
+  #     -hf unsloth/granite-4.0-h-1b-GGUF:Q4_K_M
+  #     --n-gpu-layers 10000
+  #     --port ${PORT}
+  #     --temp 0.0
+  #     --top-p 1.0
+  #     --top-k 0
+  #     --ctx-size 16384
+
+  "granite-4.0-h-micro-3B":
+    cmd: |
+      /app/llama-server
+      -hf unsloth/granite-4.0-h-micro-GGUF:Q4_K_M
+      --port ${PORT}
+      --temp 0.0
+      --top-p 1.0
+      --top-k 0
+      --ctx-size 16384
+
+groups:
+  # Small models (<7B) - always loaded, never swapped out
+  "small_models_persistent":
+    # Keep all small models loaded simultaneously
+    swap: false
+    # Don't unload other groups when these are running
+    exclusive: false
+    # Prevent other groups from unloading these models
+    persistent: true
+    members:
+      - "gemma-3-270m"
+      - "granite-4.0-h-1b"
+      - "granite-4.0-h-micro-3B"
+
+  # Larger models (7B+) - can be swapped
+  "larger_models":
+    # Only one large model at a time
+    swap: true
+    # Don't unload the persistent small models
+    exclusive: false
+    members:
+      - "granite-4.0-h-tiny-7B"
