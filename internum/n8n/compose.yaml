@@ -1,7 +1,7 @@
 services:
   n8n:
     image: docker.n8n.io/n8nio/n8n #docker.n8n.io/n8nio/n8n:next unstable
-    restart: always
+    restart: unless-stopped
     expose:
       - 5678
     environment:
@@ -11,6 +11,12 @@ services:
       - NODE_ENV=production
       - WEBHOOK_URL=https://n8n.lab.wsiwiec.com/
       - GENERIC_TIMEZONE=Europe/Warsaw
+      # Task runners configuration
+      - N8N_RUNNERS_ENABLED=true
+      - N8N_RUNNERS_MODE=external
+      - N8N_RUNNERS_BROKER_LISTEN_ADDRESS=0.0.0.0
+      - N8N_RUNNERS_AUTH_TOKEN=your-secret-token-here-change-this
+      - N8N_NATIVE_PYTHON_RUNNER=true
     volumes:
       - n8n_data:/home/node/.n8n
       - ./data:/files
@@ -19,6 +25,18 @@ services:
     labels:
       caddy: n8n.lab.wsiwiec.com
       caddy.reverse_proxy: "{{upstreams 5678}}"
+
+  n8n-task-runners:
+    image: docker.n8n.io/n8nio/runners #match n8n version
+    restart: unless-stopped
+    environment:
+      - N8N_RUNNERS_TASK_BROKER_URI=http://n8n:5679
+      - N8N_RUNNERS_AUTH_TOKEN=your-secret-token-here-change-this
+      - N8N_RUNNERS_AUTO_SHUTDOWN_TIMEOUT=15
+    networks:
+      - proxy
+    depends_on:
+      - n8n
 
 networks:
   proxy:
