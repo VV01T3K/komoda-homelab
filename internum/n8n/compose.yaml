@@ -27,7 +27,7 @@ services:
       caddy.reverse_proxy: "{{upstreams 5678}}"
 
   n8n-task-runners:
-    image: docker.n8n.io/n8nio/runners #match n8n version
+    image: n8nio/runners #match n8n version
     restart: unless-stopped
     environment:
       - N8N_RUNNERS_TASK_BROKER_URI=http://n8n:5679
