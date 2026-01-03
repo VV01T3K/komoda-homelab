@@ -106,6 +106,9 @@ services:
       caddy_101: whoami_internum.lab.wsiwiec.com #👈 Subdomain using wildcard cert
       caddy_101.reverse_proxy: "{{upstreams 80}}" #👈 Container port
 
+volumes:
+  caddy_data:
+  caddy_config:
 
 networks:
   proxy:
