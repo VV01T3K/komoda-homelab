@@ -17,9 +17,9 @@ services:
     networks:
       - proxy
     labels:
-      - caddy: n8n.localwsiwiec.com
-      - caddy.tls.internal: true
-      - caddy.reverse_proxy: "{{upstreams 5678}}"
+      caddy: n8n.localwsiwiec.com
+      caddy.tls.internal: true
+      caddy.reverse_proxy: "{{upstreams 5678}}"
 
 networks:
   proxy:
