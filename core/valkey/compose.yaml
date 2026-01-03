@@ -1,0 +1,30 @@
+services:
+  valkey:
+    container_name: valkey
+    image: valkey/valkey:alpine
+    restart: unless-stopped
+    command: >
+      valkey-server
+      --requirepass ${VALKEY_PASSWORD}
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      --save 900 1
+      --save 300 10
+      --save 60 10000
+      --appendonly yes
+    env_file:
+      - .env
+    volumes:
+      - valkey-data:/data
+    ports:
+      - 6379:6379
+    security_opt:
+      - no-new-privileges=true
+    healthcheck:
+      test: ["CMD", "valkey-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  valkey-data:

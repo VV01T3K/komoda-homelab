@@ -253,6 +253,9 @@ filtering:
     - domain: externum.lab.wsiwiec.com
       answer: 10.2.0.100
       enabled: true
+    - domain: valkey.core.lab.wsiwiec.com
+      answer: core.lab.wsiwiec.com
+      enabled: true
     - domain: adguard.lab.wsiwiec.com
       answer: core.lab.wsiwiec.com
       enabled: true
