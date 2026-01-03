@@ -581,7 +581,7 @@ access_control:
     # Rules applied to everyone
     - domain: wsiwiec.com
       policy: bypass
-    - domain: whoami.lab.wsiwiec.com
+    - domain: whoami_internum.lab.wsiwiec.com
       policy: one_factor
     - domain: excalidraw.lab.wsiwiec.com
       policy: one_factor

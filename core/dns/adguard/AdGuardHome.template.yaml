@@ -262,10 +262,10 @@ filtering:
     - domain: proxmox.lab.wsiwiec.com
       answer: core.lab.wsiwiec.com
       enabled: true
-    - domain: komodo.lab.wsiwiec.com
+    - domain: komodo_core.lab.wsiwiec.com
       answer: core.lab.wsiwiec.com
-      enabled: true
-    - domain: whoami.core.lab.wsiwiec.com
+      enabled: false
+    - domain: whoami_core.lab.wsiwiec.com
       answer: core.lab.wsiwiec.com
       enabled: true
     - domain: lab.wsiwiec.com

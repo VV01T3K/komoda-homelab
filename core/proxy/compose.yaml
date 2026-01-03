@@ -71,16 +71,16 @@ services:
       caddy_10: "*.lab.wsiwiec.com" #👈 Change to your domain
       caddy_10.import: wildcard
       # Add our first site, which this container itself
-      caddy_99: whoami.core.lab.wsiwiec.com #👈 Subdomain using wildcard cert
+      caddy_99: whoami_core.lab.wsiwiec.com #👈 Subdomain using wildcard cert
       caddy_99.reverse_proxy: "{{upstreams 80}}" #👈 Container port
 
-      caddy_200: komodo.core.lab.wsiwiec.com
+      caddy_200: komodo_core.lab.wsiwiec.com
       caddy_200.reverse_proxy: core.lab.wsiwiec.com:9120
 
-      caddy_201: komodo.internum.lab.wsiwiec.com
+      caddy_201: komodo_internum.lab.wsiwiec.com
       caddy_201.reverse_proxy: internum.lab.wsiwiec.com:9120
 
-      caddy_202: komodo.externum.lab.wsiwiec.com
+      caddy_202: komodo_externum.lab.wsiwiec.com
       caddy_202.reverse_proxy: externum.lab.wsiwiec.com:9120
 
       caddy_300: openwrt.lab.wsiwiec.com
