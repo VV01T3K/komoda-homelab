@@ -47,7 +47,7 @@ services:
       # Get wildcard certificate
       caddy_1: (wildcard)
       caddy_1.tls.dns: cloudflare {env.CF_API_TOKEN}
-      caddy_1.tls.ca: "{env.ACME_CA_ENDPOINT}" # 👈 Staging or Production (set via .env)
+      caddy_1.tls.ca: "${ACME_CA_ENDPOINT:-}" # 👈 Set to staging URL or leave empty for production
       caddy_1.tls.resolvers: 1.1.1.1 1.0.0.1
       caddy_1.handle.abort: ""
       # Skip TLS verify for backend with self-signed HTTPS
