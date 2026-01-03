@@ -4,7 +4,6 @@ services:
       context: .
       dockerfile: Dockerfile.n8n
     container_name: n8n
-    user: "1000:1000"
     volumes:
       - ./data:/home/node/.n8n
     restart: unless-stopped
