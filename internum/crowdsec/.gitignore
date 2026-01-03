@@ -1,3 +1,5 @@
 .env
 crowdsec/db
-crowdsec/config
+crowdsec/config/**
+!crowdsec/config/
+!crowdsec/config/acquis.yaml
