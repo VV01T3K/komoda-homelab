@@ -5,11 +5,11 @@ services:
     expose:
       - 5678
     environment:
-      - N8N_HOST=n8n.localwsiwiec.com
+      - N8N_HOST=n8n.lab.wsiwiec.com
       - N8N_PORT=5678
       - N8N_PROTOCOL=https
       - NODE_ENV=production
-      - WEBHOOK_URL=https://n8n.localwsiwiec.com/
+      - WEBHOOK_URL=https://n8n.lab.wsiwiec.com/
       - GENERIC_TIMEZONE=Europe/Warsaw
     volumes:
       - n8n_data:/home/node/.n8n
@@ -17,7 +17,7 @@ services:
     networks:
       - proxy
     labels:
-      caddy: n8n.localwsiwiec.com
+      caddy: n8n.lab.wsiwiec.com
       caddy.import: auth
       caddy.reverse_proxy: "{{upstreams 5678}}"
 
