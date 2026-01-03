@@ -28,4 +28,4 @@ services:
       LISTEN: /beszel_socket/beszel.sock
       KEY: 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKr0NRPSAHs9hia7jg9GDTASmystWpA93Ddnv0gTYUhb'
       TOKEN: 6837-515be65dd-4c76-1ed44004dc
-      HUB_URL: http://doker.raw.lab.wsiwiec.com:8090
+      HUB_URL: http://internum.lab.wsiwiec.com:8090
