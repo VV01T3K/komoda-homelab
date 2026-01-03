@@ -13,8 +13,10 @@ services:
       ACME_AGREE: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./caddy/data:/data/caddy #👈 where to save SSL certs
-      - ./caddy/config:/config/caddy #👈 where to save configs
+      # - ./caddy/data:/data/caddy      #👈 where to save SSL certs
+      # - ./caddy/config:/config/caddy  #👈 where to save configs
+      - caddy_data:/data/caddy
+      - caddy_config:/config/caddy
     networks:
       - proxy
     security_opt:
@@ -98,6 +100,10 @@ services:
       caddy_301: proxmox.lab.wsiwiec.com
       caddy_301.reverse_proxy.import: https
       caddy_301.reverse_proxy: proxmox.raw.lab.wsiwiec.com:8006
+
+volumes:
+  caddy_data:
+  caddy_config:
 
 networks:
   proxy:

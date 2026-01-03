@@ -12,9 +12,11 @@ services:
       CROWDSEC_API_KEY: ${CROWDSEC_API_KEY}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./caddy/data:/data/caddy #👈 where to save SSL certs
-      - ./caddy/config:/config/caddy #👈 where to save configs
-      - ./caddy/snippets:/snip:ro #👈 custom snippets
+      # - ./caddy/data:/data/caddy      #👈 where to save SSL certs
+      # - ./caddy/config:/config/caddy  #👈 where to save configs
+      - ./caddy/snippets:/snip:ro     #👈 custom snippets
+      - caddy_data:/data/caddy
+      - caddy_config:/config/caddy
     networks:
       - proxy
       - crowdsec
