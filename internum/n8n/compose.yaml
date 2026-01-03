@@ -18,7 +18,6 @@ services:
       - proxy
     labels:
       caddy: n8n.lab.wsiwiec.com
-      caddy.import: auth
       caddy.reverse_proxy: "{{upstreams 5678}}"
 
 networks:
