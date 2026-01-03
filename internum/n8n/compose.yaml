@@ -1,15 +1,4 @@
 services:
-  caddy:
-    image: caddy:latest
-    restart: unless-stopped
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - caddy_data:/data
-      - ./data/caddy_config:/config
-      - ./data/caddy_config/Caddyfile:/etc/caddy/Caddyfile
-
   n8n:
     image: docker.n8n.io/n8nio/n8n #docker.n8n.io/n8nio/n8n:next unstable
     restart: always
@@ -24,7 +13,17 @@ services:
       - GENERIC_TIMEZONE=Europe/Warsaw
     volumes:
       - n8n_data:/home/node/.n8n
-      - ./data/local_files:/files
+      - ./data:/files
+    networks:
+      - proxy
+    labels:
+      - caddy: n8n.localwsiwiec.com
+      - caddy.tls.internal: true
+      - caddy.reverse_proxy: "{{upstreams 5678}}"
+
+networks:
+  proxy:
+    external: true
       
 volumes:
   caddy_data:
