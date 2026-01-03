@@ -52,6 +52,8 @@ services:
     image: qdrant/qdrant:latest-unprivileged
     container_name: qdrant_n8n
     restart: unless-stopped
+    environment:
+      - QDRANT__TELEMETRY_DISABLED=true
     networks:
       - backend
       - proxy
