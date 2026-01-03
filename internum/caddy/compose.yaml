@@ -54,7 +54,7 @@ services:
       # Get wildcard certificate
       caddy_1: (wildcard)
       caddy_1.tls.dns: cloudflare {env.CF_API_TOKEN}
-      caddy_1.tls.ca: "${ACME_CA_ENDPOINT:-}" # 👈 Staging or Production (set via .env, empty = production default)
+      caddy_1.tls.ca: "${ACME_CA_ENDPOINT:-https://acme-staging-v02.api.letsencrypt.org/directory}" # 👈 Defaults to staging
       caddy_1.tls.resolvers: 1.1.1.1 1.0.0.1
       caddy_1.handle.abort: ""
       # Secure a site with Authelia
