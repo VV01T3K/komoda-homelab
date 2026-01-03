@@ -101,8 +101,8 @@ services:
       caddy_100.import: auth #👈 Import snippet with correct order
       caddy_100.reverse_proxy: "{{upstreams 80}}" #👈 Container port
       
-      caddy_100: whoami_internum.lab.wsiwiec.com #👈 Subdomain using wildcard cert
-      caddy_100.reverse_proxy: "{{upstreams 80}}" #👈 Container port
+      caddy_101: whoami_internum.lab.wsiwiec.com #👈 Subdomain using wildcard cert
+      caddy_101.reverse_proxy: "{{upstreams 80}}" #👈 Container port
 
 
 networks:
