@@ -1,52 +1,31 @@
 services:
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - caddy_data:/data
+      - ./data/caddy_config:/config
+      - ./data/caddy_config/Caddyfile:/etc/caddy/Caddyfile
+
   n8n:
-    build:
-      context: .
-      dockerfile: Dockerfile.n8n
-    container_name: n8n
-    volumes:
-      - ./data:/home/node/.n8n
-    restart: unless-stopped
-    networks:
-      - proxy
-      - backend
+    image: docker.n8n.io/n8nio/n8n #docker.n8n.io/n8nio/n8n:next unstable
+    restart: always
+    expose:
+      - 5678
     environment:
-      N8N_COMMUNITY_PACKAGES_ENABLED: true
-      N8N_EDITOR_BASE_URL: https://n8n.lab.wsiwiec.com
-      WEBHOOK_URL: https://n8n.lab.wsiwiec.com
-      N8N_DIAGNOSTICS_ENABLED: false
-      N8N_PERSONALIZATION_ENABLED: false
-      N8N_VERSION_NOTIFICATIONS_ENABLED: true
-      N8N_TEMPLATES_ENABLED: true
-      N8N_HIRING_BANNER_ENABLED: false
-      # N8N_CUSTOM_EXTENSIONS: /home/node/.n8n/custom
-    labels:
-      caddy: n8n.lab.wsiwiec.com
-      caddy.import: /snip/n8n/n8n.caddy
-      caddy.reverse_proxy: "{{upstreams 5678}}"
-  valkey:
-    image: valkey/valkey:9-alpine
-    container_name: valkey_n8n
-    restart: unless-stopped
+      - N8N_HOST=n8n.localwsiwiec.com
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - NODE_ENV=production
+      - WEBHOOK_URL=https://n8n.localwsiwiec.com/
+      - GENERIC_TIMEZONE=Europe/Warsaw
     volumes:
-      - valkey_data:/data
-  qdrant:
-    image: qdrant/qdrant:latest-unprivileged
-    container_name: qdrant_n8n
-    restart: unless-stopped
-    networks:
-      - backend
-      - proxy
-    volumes:
-      - qdrant_data:/qdrant/storage
-    labels:
-      caddy: qdrant.lab.wsiwiec.com
-      caddy.reverse_proxy: "{{upstreams 6333}}"
+      - n8n_data:/home/node/.n8n
+      - ./data/local_files:/files
+      
 volumes:
-  valkey_data: null
-  qdrant_data: null
-networks:
-  backend:
-    external: true
-  proxy:
-    external: true
+  caddy_data:
+  n8n_data:
