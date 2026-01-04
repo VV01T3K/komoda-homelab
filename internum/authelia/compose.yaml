@@ -8,6 +8,8 @@ services:
       - proxy
     env_file:
       - .env
+    ports:
+      - 9091:9091
     expose:
       - 9091
     volumes:
