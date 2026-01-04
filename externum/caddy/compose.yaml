@@ -123,7 +123,7 @@ services:
 
       # komodo webhook endpoint 
       caddy_102: komodo.wsiwiec.com
-      caddy_102.reverse_proxy: host.docker.internal:9120
+      caddy_102.reverse_proxy: 10.2.0.100:9120
 
 volumes:
   caddy_data:
