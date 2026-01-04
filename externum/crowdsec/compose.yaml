@@ -18,7 +18,29 @@ services:
     security_opt:
       - no-new-privileges=true
 
+  dashboard:
+    container_name: crowdsec-dashboard
+    image: metabase/metabase:latest
+    restart: unless-stopped
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
+      MGID: "${GID-1000}"
+    volumes:
+      - ./dashboard:/metabase-data
+    networks:
+      - crowdsec
+      - proxy
+    depends_on:
+      - crowdsec
+    security_opt:
+      - no-new-privileges=true
+    labels:
+      caddy: crowdsec.wsiwiec.com
+      caddy.route.reverse_proxy: "{{upstreams 3000}}"
+
 networks:
   crowdsec:
     external: false
     name: crowdsec
+  proxy:
+    external: true
