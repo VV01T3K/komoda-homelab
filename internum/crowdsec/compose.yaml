@@ -15,10 +15,18 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - crowdsec
+      - proxy
     security_opt:
       - no-new-privileges=true
+    expose:
+      - 8080
+    labels:
+      caddy: crowdsec.lab.wsiwiec.com
+      caddy.reverse_proxy: "{{upstreams 8080}}"
 
 networks:
   crowdsec:
     external: false
     name: crowdsec
+  proxy:
+    external: true

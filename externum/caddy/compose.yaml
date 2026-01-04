@@ -50,7 +50,7 @@ services:
       caddy_0.order: "crowdsec before forward_auth"
       caddy_0.order_1: "crowdsec before reverse_proxy"
       caddy_0.crowdsec: ""
-      caddy_0.crowdsec.api_url: "http://crowdsec:8080"
+      caddy_0.crowdsec.api_url: "{env.CROWDSEC_HOST}"
       caddy_0.crowdsec.api_key: "{env.CROWDSEC_API_KEY}"
       #### Snippets ####
       # Get wildcard certificate
@@ -61,7 +61,7 @@ services:
       caddy_1.handle.abort: ""
       # Secure a site with Authelia
       caddy_2: (auth)
-      caddy_2.forward_auth: "{env.AUTH_HOST_INTERNAL}"
+      caddy_2.forward_auth: "{env.AUTH_HOST}"
       caddy_2.forward_auth.uri: /api/authz/forward-auth
       caddy_2.forward_auth.copy_headers: Remote-User Remote-Groups Remote-Name Remote-Email
       # Skip TLS verify for backend with self-signed HTTPS
