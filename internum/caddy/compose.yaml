@@ -44,6 +44,15 @@ services:
       #### Global Settings ####
       caddy_0.email: "{env.EMAIL}"
       caddy_0.auto_https: prefer_wildcard
+      #### Storage Settings ####
+      caddy_0.storage: redis
+      caddy_0.storage.address: "{env.VALKEY_HOST}:{env.VALKEY_PORT}"
+      caddy_0.storage.password: "{env.VALKEY_PASSWORD}"
+      caddy_0.storage.db: 0
+      caddy_0.storage.timeout: 5
+      caddy_0.storage.key_prefix: caddy
+      caddy_0.storage.encryption_key: "{env.VALKEY_ENCRYPTION_KEY}"
+      caddy_0.storage.compression: true
       #### Snippets ####
       # Get wildcard certificate
       caddy_1: (wildcard)
