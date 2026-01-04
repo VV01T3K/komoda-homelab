@@ -579,6 +579,8 @@ access_control:
 
   rules:
     # Rules applied to everyone
+    - domain: auth.lab.wsiwiec.com
+      policy: bypass
     - domain: wsiwiec.com
       policy: bypass
     - domain: whoami_internum.lab.wsiwiec.com
@@ -668,8 +670,6 @@ session:
 
   ## The cookies configuration.
   cookies:
-    - domain: lab.wsiwiec.com
-      authelia_url: https://auth.lab.wsiwiec.com
     - domain: wsiwiec.com
       authelia_url: https://auth.lab.wsiwiec.com
 
