@@ -22,7 +22,7 @@ services:
     container_name: crowdsec-db-viewer
     image: coleifer/sqlite-web
     restart: unless-stopped
-    command: ["-H", "0.0.0.0", "-x", "/data/crowdsec.db"]
+    command: -H 0.0.0.0 -x /data/crowdsec.db
     volumes:
       - ./crowdsec/db:/data:ro
     networks:
