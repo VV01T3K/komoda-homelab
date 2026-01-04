@@ -70,7 +70,7 @@ services:
       caddy_1.handle.abort: ""
       # Secure a site with Authelia
       caddy_2: (auth)
-      caddy_2.forward_auth: "{env.AUTH_HOST}"
+      caddy_2.forward_auth: "https://{env.AUTH_HOST}"
       caddy_2.forward_auth.uri: /api/authz/forward-auth
       caddy_2.forward_auth.copy_headers: Remote-User Remote-Groups Remote-Name Remote-Email
       # Skip TLS verify for backend with self-signed HTTPS
@@ -85,7 +85,7 @@ services:
       caddy_5: (crowdsec_auth)
       caddy_5.route: ""
       caddy_5.route.0_crowdsec: "" #👈 CrowdSec blocks FIRST
-      caddy_5.route.1_forward_auth: "{env.AUTH_HOST}" #👈 Auth runs SECOND
+      caddy_5.route.1_forward_auth: "https://{env.AUTH_HOST}" #👈 Auth runs SECOND
       caddy_5.route.1_forward_auth.uri: /api/authz/forward-auth
       caddy_5.route.1_forward_auth.copy_headers: Remote-User Remote-Groups Remote-Name Remote-Email
       ###########################################
