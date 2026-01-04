@@ -121,6 +121,12 @@ services:
       caddy_101: whoami_externum.wsiwiec.com #👈 Subdomain using wildcard cert
       caddy_101.reverse_proxy: "{{upstreams 80}}" #👈 Container port
 
+      # komodo webhook endpoint 
+      caddy_102: komodo.wsiwiec.com
+      caddy_102.route.import: crowdsec
+      caddy_102.route.handle_path: /listener/*
+      caddy_102.route.handle_path.reverse_proxy: host.docker.internal:9120
+
 volumes:
   caddy_data:
   caddy_config:
