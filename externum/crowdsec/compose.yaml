@@ -27,6 +27,7 @@ services:
       MGID: "${GID-1000}"
     volumes:
       - ./dashboard:/metabase-data
+      - ./crowdsec/db:/var/lib/crowdsec/data:ro
     networks:
       - crowdsec
       - proxy
