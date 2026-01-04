@@ -18,25 +18,6 @@ services:
     security_opt:
       - no-new-privileges=true
 
-  db-viewer:
-    container_name: crowdsec-db-viewer
-    image: coleifer/sqlite-web
-    restart: unless-stopped
-    command: -H 0.0.0.0 -x /data/crowdsec.db
-    volumes:
-      - ./crowdsec/db:/data:ro
-    networks:
-      - crowdsec
-      - proxy
-    depends_on:
-      - crowdsec
-    security_opt:
-      - no-new-privileges=true
-    labels:
-      caddy: crowdsec.wsiwiec.com
-      caddy.route.import: crowdsec_auth
-      caddy.route.reverse_proxy: "{{upstreams 8080}}"
-
 networks:
   crowdsec:
     external: false
