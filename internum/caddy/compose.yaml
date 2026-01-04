@@ -48,7 +48,7 @@ services:
       caddy_0.storage: redis
       caddy_0.storage.address: "{env.VALKEY_HOST}:{env.VALKEY_PORT}"
       caddy_0.storage.password: "{env.VALKEY_PASSWORD}"
-      caddy_0.storage.db: 443
+      caddy_0.storage.db: 4
       caddy_0.storage.timeout: 5
       caddy_0.storage.key_prefix: caddy
       caddy_0.storage.encryption_key: "{env.VALKEY_ENCRYPTION_KEY}"
