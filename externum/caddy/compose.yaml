@@ -123,9 +123,7 @@ services:
 
       # komodo webhook endpoint 
       caddy_102: komodo.wsiwiec.com
-      caddy_102.route.import: crowdsec
-      caddy_102.route.handle_path: /listener/*
-      caddy_102.route.handle_path.reverse_proxy: host.docker.internal:9120
+      caddy_102.reverse_proxy: host.docker.internal:9120
 
 volumes:
   caddy_data:
