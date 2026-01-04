@@ -101,6 +101,8 @@ services:
       # It will try to obtain SSL from Let's Encrypt's staging endpoint.
 
       ## Setup wildcard sites
+      caddy_9: "*.wsiwiec.com" #👈 Change to your domain
+      caddy_9.import: wildcard
       caddy_10: "*.lab.wsiwiec.com" #👈 Change to your domain
       caddy_10.import: wildcard
       # Add our first site, which this container itself
