@@ -9,7 +9,6 @@ services:
       CADDY_INGRESS_NETWORKS: proxy
       CADDY_DOCKER_POLLING_INTERVAL: 5s
       ACME_AGREE: true
-      CROWDSEC_API_KEY: ${CROWDSEC_API_KEY}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # - ./caddy/data:/data/caddy      #👈 where to save SSL certs
@@ -19,7 +18,6 @@ services:
       - caddy_config:/config/caddy
     networks:
       - proxy
-      - crowdsec
     security_opt:
       - no-new-privileges=true
     ports:
@@ -35,7 +33,6 @@ services:
       - .env
     networks:
       - proxy
-      - crowdsec
     restart: unless-stopped
     labels:
       #############################################
@@ -47,11 +44,6 @@ services:
       #### Global Settings ####
       caddy_0.email: "{env.EMAIL}"
       caddy_0.auto_https: prefer_wildcard
-      caddy_0.order: "crowdsec before forward_auth"
-      caddy_0.order_1: "crowdsec before reverse_proxy"
-      caddy_0.crowdsec: ""
-      caddy_0.crowdsec.api_url: "{env.CROWDSEC_HOST}"
-      caddy_0.crowdsec.api_key: "{env.CROWDSEC_API_KEY}"
       #### Snippets ####
       # Get wildcard certificate
       caddy_1: (wildcard)
@@ -69,16 +61,6 @@ services:
       caddy_3.transport: http
       caddy_3.transport.tls: ""
       caddy_3.transport.tls_insecure_skip_verify: ""
-      # CrowdSec protection
-      caddy_4: (crowdsec)
-      caddy_4.crowdsec: ""
-      # CrowdSec + Authelia protection (ordered)
-      caddy_5: (crowdsec_auth)
-      caddy_5.route: ""
-      caddy_5.route.0_crowdsec: "" #👈 CrowdSec blocks FIRST
-      caddy_5.route.1_forward_auth: "{env.AUTH_HOST_INTERNAL}" #👈 Auth runs SECOND
-      caddy_5.route.1_forward_auth.uri: /api/authz/forward-auth
-      caddy_5.route.1_forward_auth.copy_headers: Remote-User Remote-Groups Remote-Name Remote-Email
       ###########################################
       # Custom settings. Modify things below 👇:
       # Make sure they have unique label numbers
@@ -95,10 +77,6 @@ services:
       caddy_10: "*.lab.wsiwiec.com" #👈 Change to your domain
       caddy_10.import: wildcard
       # Add our first site, which this container itself
-      caddy_99: whoami_internum_crowdauth.lab.wsiwiec.com #👈 Subdomain using wildcard cert
-      caddy_99.route.import: crowdsec_auth #👈 Import snippet with correct order
-      caddy_99.route.reverse_proxy: "{{upstreams 80}}" #👈 Container port
-      
       caddy_100: whoami_internum_auth.lab.wsiwiec.com #👈 Subdomain using wildcard cert
       caddy_100.import: auth #👈 Import snippet with correct order
       caddy_100.reverse_proxy: "{{upstreams 80}}" #👈 Container port
@@ -112,6 +90,4 @@ volumes:
 
 networks:
   proxy:
-    external: true
-  crowdsec:
     external: true
