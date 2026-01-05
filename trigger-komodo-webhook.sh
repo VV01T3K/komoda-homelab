@@ -1,34 +1,31 @@
 #!/usr/bin/env bash
 # Trigger Komodo webhook
-# Usage: ./trigger-komodo-webhook.sh <secret> [branch]
-#   secret - webhook secret (or set KOMODO_WEBHOOK_SECRET env var)
-#   branch - git branch to trigger (default: main)
+# Usage: ./trigger-komodo-webhook.sh <secret> [branch] [webhook_url]
+#   secret      - webhook secret (or set KOMODO_WEBHOOK_SECRET env var)
+#   branch      - git branch to trigger (default: main)
+#   webhook_url - webhook URL (or set KOMODO_WEBHOOK_URL env var)
 
 SECRET="${1:-$KOMODO_WEBHOOK_SECRET}"
 BRANCH="${2:-main}"
+WEBHOOK_URL="${3:-$KOMODO_WEBHOOK_URL}"
 PAYLOAD="{\"ref\":\"refs/heads/$BRANCH\"}"
 SIGNATURE="sha256=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" | awk '{print $2}')"
 
 curl -sw "%{http_code}\n" \
-  "https://komodo.wsiwiec.com/listener/github/procedure/695b1e462652deb41b6edd4b/$BRANCH" \
+  "$WEBHOOK_URL" \
   -H "X-Hub-Signature-256: $SIGNATURE" \
   -d "$PAYLOAD"
 
-# Example workflow:
-# add KOMODO_WEBHOOK_SECRET to your repository secrets.
+# Example GitHub Actions workflow:
+# Add KOMODO_WEBHOOK_SECRET and KOMODO_WEBHOOK_URL to your repository secrets.
 
 # - name: Trigger Komodo
-#   run: ./webhooks/trigger-komodo-webhook.sh "${{ secrets.KOMODO_WEBHOOK_SECRET }}"
+#   run: ./trigger-komodo-webhook.sh "${{ secrets.KOMODO_WEBHOOK_SECRET }}" "main" "${{ secrets.KOMODO_WEBHOOK_URL }}"
 
-# Or inline without the script:
+# Or using env vars:
 
 # - name: Trigger Komodo
 #   env:
-#     SECRET: ${{ secrets.KOMODO_WEBHOOK_SECRET }}
-#   run: |
-#     PAYLOAD='{"ref":"refs/heads/main"}'
-#     SIGNATURE="sha256=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" | awk '{print $2}')"
-#     curl -sw "%{http_code}\n" \
-#       "https://komodo.wsiwiec.com/listener/github/procedure/695b1e462652deb41b6edd4b/main" \
-#       -H "X-Hub-Signature-256: $SIGNATURE" \
-#       -d "$PAYLOAD"
+#     KOMODO_WEBHOOK_SECRET: ${{ secrets.KOMODO_WEBHOOK_SECRET }}
+#     KOMODO_WEBHOOK_URL: ${{ secrets.KOMODO_WEBHOOK_URL }}
+#   run: ./trigger-komodo-webhook.sh
