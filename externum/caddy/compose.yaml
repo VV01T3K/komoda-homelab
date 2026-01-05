@@ -125,7 +125,7 @@ services:
       caddy_102: komodo.wsiwiec.com
       caddy_102.@webhook.path: /listener/*
       caddy_102.handle: "@webhook"
-      caddy_102.handle.reverse_proxy: 10.2.0.100:9120
+      caddy_102.handle.reverse_proxy: externum.lab.wsiwiec.com:9120
       caddy_102.handle_1.abort: ""
 
 volumes:
