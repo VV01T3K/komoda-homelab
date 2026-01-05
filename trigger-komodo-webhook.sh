@@ -5,9 +5,9 @@
 #   branch      - git branch to trigger (default: main)
 #   webhook_url - webhook URL (or set KOMODO_WEBHOOK_URL env var)
 
-SECRET="${1:-$KOMODO_WEBHOOK_SECRET}"
-BRANCH="${2:-main}"
-WEBHOOK_URL="${3:-$KOMODO_WEBHOOK_URL}"
+WEBHOOK_URL="${1:-$KOMODO_WEBHOOK_URL}"
+SECRET="${2:-$KOMODO_WEBHOOK_SECRET}"
+BRANCH="${3:-main}"
 PAYLOAD="{\"ref\":\"refs/heads/$BRANCH\"}"
 SIGNATURE="sha256=$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$SECRET" | awk '{print $2}')"
 
