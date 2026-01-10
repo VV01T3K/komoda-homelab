@@ -197,6 +197,10 @@ webauthn:
   ## Disable Webauthn.
   disable: false
 
+  ## Enable passwordless login via Passkeys (counts as single-factor authentication).
+  ## When enabled, users can login with just a passkey for domains with one_factor policy.
+  enable_passkey_login: true
+
   ## Adjust the interaction timeout for Webauthn dialogues.
   timeout: 60s
 

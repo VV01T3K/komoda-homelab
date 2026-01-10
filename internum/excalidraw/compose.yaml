@@ -6,6 +6,7 @@ services:
       - proxy
     labels:
       caddy: excalidraw.lab.wsiwiec.com #👈 Subdomain using wildcard cert
+      caddy.import: auth
       caddy.reverse_proxy: "{{upstreams 80}}" #👈 Container port
 
 networks:
