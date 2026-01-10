@@ -128,6 +128,11 @@ services:
       caddy_102.handle.reverse_proxy: externum.lab.wsiwiec.com:9120
       caddy_102.handle_1.abort: ""
 
+      caddy_103: auth.wsiwiec.com
+      caddy_103.route.import: crowdsec
+      caddy_103.route.reverse_proxy: "{env.AUTH_HOST}"
+      caddy_103.route.import: ../internum/caddy/snippets/authelia/Authelia.caddy
+
 volumes:
   caddy_data:
   caddy_config:
