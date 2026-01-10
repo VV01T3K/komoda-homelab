@@ -9,6 +9,8 @@ services:
       - CB_PROXY_MODE=true
     volumes:
       - cloudbeaver-workspace:/opt/cloudbeaver/workspace
+      # Pre-configured connections via data-sources.json
+      - ./config/data-sources.json:/opt/cloudbeaver/workspace/GlobalConfiguration/.dbeaver/data-sources.json:ro
     networks:
       - researchcruiseapp-network
       - proxy

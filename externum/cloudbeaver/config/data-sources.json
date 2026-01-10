@@ -1,0 +1,27 @@
+{
+  "folders": {},
+  "connections": {
+    "researchcruiseapp-db": {
+      "provider": "sqlserver",
+      "driver": "mssql",
+      "name": "ResearchCruiseApp Database",
+      "save-password": false,
+      "show-system-objects": false,
+      "read-only": false,
+      "configuration": {
+        "host": "researchcruiseapp-db",
+        "port": "1433",
+        "database": "ResearchCruiseApp",
+        "url": "jdbc:sqlserver://researchcruiseapp-db:1433;databaseName=ResearchCruiseApp",
+        "configurationType": "MANUAL",
+        "type": "prod",
+        "closeIdleConnection": true,
+        "properties": {
+          "connectTimeout": "20",
+          "loginTimeout": "20"
+        }
+      },
+      "auth-model": "native"
+    }
+  }
+}
