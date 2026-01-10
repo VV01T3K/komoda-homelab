@@ -671,6 +671,8 @@ session:
   ## The cookies configuration.
   cookies:
     - domain: wsiwiec.com
+      authelia_url: https://auth.wsiwiec.com
+    - domain: lab.wsiwiec.com
       authelia_url: https://auth.lab.wsiwiec.com
 
   ## Sets the Cookie SameSite value. Possible options are none, lax, or strict.
