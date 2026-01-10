@@ -22,6 +22,8 @@ services:
       # Tell it to trust the X-Forwarded-For header from Caddy
       - CB_SERVER_URL=https://cloudbeaver.wsiwiec.com
       - CB_PROXY_MODE=true
+      # Allow requests from Authelia domain
+      - CB_ALLOWED_HOSTS=cloudbeaver.wsiwiec.com,auth.wsiwiec.com
     volumes:
       - cloudbeaver-workspace:/opt/cloudbeaver/workspace
       # Pre-configured connections via data-sources.json
