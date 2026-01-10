@@ -1,0 +1,24 @@
+services:
+  cloudbeaver:
+    image: dbeaver/cloudbeaver:latest
+    container_name: researchcruiseapp-cloudbeaver
+    volumes:
+      - cloudbeaver-workspace:/opt/cloudbeaver/workspace
+    networks:
+      - researchcruiseapp-network
+      - proxy
+    expose:
+      - 8978
+    labels:
+      caddy: cloudbeaver.wsiwiec.com
+      caddy.route.import: crowdsec_auth
+      caddy.route.reverse_proxy: "{{upstreams 8978}}"
+
+volumes:
+  cloudbeaver-workspace:
+
+networks:
+  researchcruiseapp-network:
+    external: true
+  proxy:
+    external: true
