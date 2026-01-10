@@ -3,7 +3,7 @@
   "connections": {
     "researchcruiseapp-db": {
       "provider": "sqlserver",
-      "driver": "mssql",
+      "driver": "mssql_jdbc_ms_new",
       "name": "ResearchCruiseApp Database",
       "save-password": false,
       "show-system-objects": false,
