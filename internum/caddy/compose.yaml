@@ -63,7 +63,7 @@ services:
       # Secure a site with Authelia
       caddy_2: (auth)
       caddy_2.forward_auth: "{env.AUTH_HOST}"
-      caddy_2.forward_auth.uri: /api/authz/forward-auth
+      caddy_2.forward_auth.uri: /api/authz/forward-auth?authelia_url=https://auth.lab.wsiwiec.com
       caddy_2.forward_auth.copy_headers: Remote-User Remote-Groups Remote-Name Remote-Email
       # Skip TLS verify for backend with self-signed HTTPS
       caddy_3: (https)
@@ -92,6 +92,11 @@ services:
       
       caddy_101: whoami_internum.lab.wsiwiec.com #👈 Subdomain using wildcard cert
       caddy_101.reverse_proxy: "{{upstreams 80}}" #👈 Container port
+
+      # Authelia portal for *.lab.wsiwiec.com
+      caddy_102: auth.lab.wsiwiec.com
+      caddy_102.route.import_0: /snip/authelia/Authelia.caddy
+      caddy_102.route.reverse_proxy: "{env.AUTH_HOST}"
 
 volumes:
   caddy_data:
