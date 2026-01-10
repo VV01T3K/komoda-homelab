@@ -584,13 +584,13 @@ access_control:
   rules:
     # Rules applied to everyone
     - domain: auth.lab.wsiwiec.com
-      policy: bypass
+      policy: two_factor
     - domain: wsiwiec.com
       policy: bypass
     - domain: whoami_internum.lab.wsiwiec.com
       policy: one_factor
     - domain: excalidraw.lab.wsiwiec.com
-      policy: one_factor
+      policy: one_factor  # Allows passwordless login with passkey only
 
     ## Domain Regex examples. Generally we recommend just using a standard domain.
     # - domain_regex: '^(?P<User>\w+)\.example\.com$'
