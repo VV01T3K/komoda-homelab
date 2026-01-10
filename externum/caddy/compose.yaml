@@ -129,9 +129,9 @@ services:
       caddy_102.handle_1.abort: ""
 
       caddy_103: auth.wsiwiec.com
-      # caddy_103.route.import: crowdsec
-      caddy_103.route.reverse_proxy: "{env.AUTH_HOST}"
+      caddy_103.route.import: crowdsec
       caddy_103.route.import: /snip/authelia/Authelia.caddy
+      caddy_103.route.reverse_proxy: "{env.AUTH_HOST}"
 
 volumes:
   caddy_data:
