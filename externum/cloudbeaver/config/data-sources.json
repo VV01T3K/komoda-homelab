@@ -1,0 +1,40 @@
+{
+  "folders": {},
+  "connections": {
+    "microsoft-19ba61149f1-4be522ed567e3dfe": {
+      "provider": "sqlserver",
+      "driver": "microsoft",
+      "name": "SQL Server@researchcruiseapp-db",
+      "save-password": true,
+      "configuration": {
+        "host": "researchcruiseapp-db",
+        "port": "1433",
+        "database": "ResearchCruiseApp",
+        "url": "jdbc:sqlserver://;serverName\u003dresearchcruiseapp-db;databaseName\u003dResearchCruiseApp",
+        "configurationType": "MANUAL",
+        "type": "dev",
+        "closeIdleConnection": true,
+        "auth-model": "sqlserver_database",
+        "bootstrap": {
+          "autocommit": true
+        }
+      }
+    }
+  },
+  "connection-types": {
+    "dev": {
+      "name": "Development",
+      "color": "255,255,255",
+      "description": "Regular development database",
+      "auto-commit": true,
+      "confirm-execute": false,
+      "confirm-data-change": false,
+      "smart-commit": false,
+      "smart-commit-recover": true,
+      "auto-close-transactions": true,
+      "close-transactions-period": 1800,
+      "auto-close-connections": true,
+      "close-connections-period": 14400
+    }
+  }
+}
