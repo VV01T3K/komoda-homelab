@@ -1,22 +1,7 @@
 services:
-  cloudbeaver-init:
-    image: busybox:latest
-    container_name: researchcruiseapp-cloudbeaver-init
-    command: >
-      sh -c "mkdir -p /workspace/GlobalConfiguration/.dbeaver && 
-             echo 'CloudBeaver workspace initialized' && 
-             sleep 2"
-    volumes:
-      - cloudbeaver-workspace:/workspace
-    networks:
-      - researchcruiseapp-network
-
   cloudbeaver:
     image: dbeaver/cloudbeaver:latest
     container_name: researchcruiseapp-cloudbeaver
-    depends_on:
-      cloudbeaver-init:
-        condition: service_completed_successfully
     environment:
       # Configure CloudBeaver to work behind reverse proxy
       # Tell it to trust the X-Forwarded-For header from Caddy
