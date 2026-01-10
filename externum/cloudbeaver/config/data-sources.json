@@ -7,7 +7,7 @@
       "name": "ResearchCruiseApp Database",
       "save-password": false,
       "show-system-objects": false,
-      "read-only": true,
+      "read-only": false,
       "configuration": {
         "host": "researchcruiseapp-db",
         "port": "1433",
