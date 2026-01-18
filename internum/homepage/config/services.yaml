@@ -73,6 +73,13 @@
         server: local
         container: excalidraw
 
+    - IT-Tools:
+        icon: it-tools.png
+        href: https://it-tools.lab.wsiwiec.com
+        description: Developer utilities
+        server: local
+        container: it-tools
+
 - Monitoring & Security:
     - Uptime Kuma:
         icon: uptime-kuma.png

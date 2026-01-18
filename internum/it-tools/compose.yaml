@@ -1,0 +1,14 @@
+services:
+  it-tools:
+    image: corentinth/it-tools:latest
+    restart: unless-stopped
+    networks:
+      - proxy
+    labels:
+      caddy: it-tools.lab.wsiwiec.com
+      caddy.import: auth
+      caddy.reverse_proxy: "{{upstreams 80}}"
+
+networks:
+  proxy:
+    external: true
