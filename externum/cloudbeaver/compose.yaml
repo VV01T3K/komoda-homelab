@@ -26,11 +26,6 @@ services:
       caddy: cloudbeaver.wsiwiec.com
       caddy.route.import: crowdsec_auth
       caddy.route.reverse_proxy: "{{upstreams 8978}}"
-      # Ensure proper header forwarding for reverse proxy
-      caddy.route.reverse_proxy.header_up: "X-Real-IP {client_ip}"
-      caddy.route.reverse_proxy.header_up_1: "X-Forwarded-For {client_ip}"
-      caddy.route.reverse_proxy.header_up_2: "X-Forwarded-Proto {scheme}"
-      caddy.route.reverse_proxy.header_up_3: "X-Forwarded-Host {host}"
 
 volumes:
   cloudbeaver-workspace:
