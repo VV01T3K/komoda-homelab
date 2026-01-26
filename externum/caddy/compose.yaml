@@ -140,6 +140,7 @@ volumes:
 
 networks:
   cloudflare:
+    name: cloudflare
   proxy:
     external: true
   crowdsec:
