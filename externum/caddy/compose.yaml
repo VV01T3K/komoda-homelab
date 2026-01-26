@@ -20,6 +20,7 @@ services:
     networks:
       - proxy
       - crowdsec
+      - cloudflare
     security_opt:
       - no-new-privileges=true
     ports:
@@ -138,6 +139,7 @@ volumes:
   caddy_config:
 
 networks:
+  cloudflare:
   proxy:
     external: true
   crowdsec:

@@ -7,8 +7,8 @@ services:
     environment:
       TUNNEL_TOKEN: ${CLOUDFLARED_TUNNEL_TOKEN}
     networks:
-      - proxy
+      - cloudflare
 
 networks:
-  proxy:
+  cloudflare:
     external: true
