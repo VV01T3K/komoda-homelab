@@ -1,0 +1,16 @@
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:2
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./data:/app/data
+    networks:
+      - proxy
+    labels:
+      caddy: uptime.wsiwiec.com
+      caddy.route.import: crowdsec
+      caddy.route.reverse_proxy: "{{upstreams 3001}}"
+networks:
+  proxy:
+    external: true
