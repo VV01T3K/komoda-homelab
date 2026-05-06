@@ -47,7 +47,7 @@ services:
 
       #### Global Settings ####
       caddy_0.email: "{env.EMAIL}"
-      caddy_0.auto_https: prefer_wildcard
+      # caddy_0.auto_https: prefer_wildcard
       #### Storage Settings ####
       caddy_0.storage: redis
       caddy_0.storage.address: "{env.VALKEY_HOST}:{env.VALKEY_PORT}"
