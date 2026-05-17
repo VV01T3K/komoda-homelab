@@ -1,0 +1,43 @@
+services:
+  hyperdx:
+    image: clickhouse/clickstack-all-in-one:latest
+    container_name: hyperdx
+    restart: unless-stopped
+    ports:
+      - "8080:8080"   # HyperDX UI
+      - "4317:4317"   # OTLP gRPC (for .NET backend)
+      - "4318:4318"   # OTLP HTTP (for SPA browser SDK)
+    volumes:
+      - ./.volumes/db:/data/db                          # MongoDB
+      - ./.volumes/ch_data:/var/lib/clickhouse          # ClickHouse data
+      - ./.volumes/ch_logs:/var/log/clickhouse-server   # ClickHouse logs
+    environment:
+      USAGE_STATS_ENABLED: "false"
+      HYPERDX_OTEL_EXPORTER_TABLES_TTL: "168h"
+    networks:
+      - proxy
+      - hyperdx
+    labels:
+      # HyperDX UI
+      caddy_0: hyperdx.wsiwiec.com
+      caddy_0.route.import: crowdsec
+      caddy_0.route.reverse_proxy: "{{upstreams 8080}}"
+
+      # OTLP HTTP ingest (SPA browser SDK)
+      caddy_1: otel.wsiwiec.com
+      caddy_1.route.import: crowdsec
+      caddy_1.route.reverse_proxy: "{{upstreams 4318}}"
+
+      # # OTLP gRPC ingest (.NET backend) — h2c to plaintext gRPC backend
+      # caddy_2: otel-grpc.wsiwiec.com
+      # caddy_2.route.import: crowdsec
+      # caddy_2.route.reverse_proxy: "{{upstreams 4317}}"
+      # caddy_2.route.reverse_proxy.transport: http
+      # caddy_2.route.reverse_proxy.transport.versions: h2c
+
+networks:
+  proxy:
+    external: true
+  hyperdx:
+    external: false
+    name: hyperdx

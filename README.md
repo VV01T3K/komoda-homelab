@@ -6,14 +6,14 @@ Docker Compose homelab split into `core`, `internum`, and `externum` stacks, wit
 
 - `core/` shared infrastructure: `dns` (AdGuard + Unbound), `proxy` (Caddy), `valkey`
 - `internum/` internal services: Authelia, Homepage, Gitea, n8n, Open WebUI, llama, Uptime Kuma, Excalidraw, IT-Tools, Beszel
-- `externum/` internet-facing edge/services: Caddy, Cloudflared, CrowdSec, CloudBeaver, public Uptime Kuma
+- `externum/` internet-facing edge/services: Caddy, Cloudflared, CrowdSec, CloudBeaver, HyperDX, public Uptime Kuma
 
 ## Notes
 
 - Each app lives in its own folder with a local `compose.yaml`
 - Komodo is not defined here; `core/komo.do`, `internum/komo.do`, and `externum/komo.do` note manual installation
 - Some stacks expect local `.env` files
-- Shared external Docker networks used in the repo include `proxy`, `backend`, `crowdsec`, and `cloudflare`
+- Shared external Docker networks used in the repo include `proxy`, `backend`, `crowdsec`, `cloudflare`, and `hyperdx`
 - Caddy is configured through Docker labels and uses wildcard TLS via Cloudflare DNS
 - Certificates are shared through Valkey-backed Caddy storage
 
