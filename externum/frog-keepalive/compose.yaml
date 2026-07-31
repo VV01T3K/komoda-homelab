@@ -1,7 +1,6 @@
 services:
   frog-keepalive:
     build: .
-    image: frog-keepalive:local
     restart: unless-stopped
     init: true
     environment:
