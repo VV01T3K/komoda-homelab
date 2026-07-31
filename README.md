@@ -6,7 +6,7 @@ Docker Compose homelab split into `core`, `internum`, and `externum` stacks, wit
 
 - `core/` shared infrastructure: `dns` (AdGuard + Unbound), `proxy` (Caddy), `valkey`
 - `internum/` internal services: Authelia, Homepage, Gitea, n8n, Open WebUI, llama, Uptime Kuma, Excalidraw, IT-Tools, Beszel
-- `externum/` internet-facing edge/services: Caddy, Cloudflared, CrowdSec, CloudBeaver, HyperDX, public Uptime Kuma
+- `externum/` internet-facing edge/services: Caddy, Cloudflared, CrowdSec, CloudBeaver, HyperDX, public Uptime Kuma, Frog keepalive
 
 ## Notes
 

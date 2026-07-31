@@ -1,0 +1,30 @@
+services:
+  frog-keepalive:
+    build: .
+    image: frog-keepalive:local
+    restart: unless-stopped
+    init: true
+    environment:
+      FROG_HOST: ${FROG_HOST:-frog01.mikr.us}
+      FROG_PORT: ${FROG_PORT:-11157}
+      FROG_USER: ${FROG_USER:-frog}
+      FROG_HOST_KEY_SHA256: ${FROG_HOST_KEY_SHA256:?Set FROG_HOST_KEY_SHA256 in .env}
+      KEEPALIVE_INTERVAL_DAYS: ${KEEPALIVE_INTERVAL_DAYS:-60}
+      MAX_JITTER_SECONDS: ${MAX_JITTER_SECONDS:-21600}
+      RETRY_SECONDS: ${RETRY_SECONDS:-3600}
+      CHECK_SECONDS: ${CHECK_SECONDS:-3600}
+      CONNECT_TIMEOUT_SECONDS: ${CONNECT_TIMEOUT_SECONDS:-20}
+    volumes:
+      - frog_keepalive_ssh:/home/keepalive/.ssh
+      - frog_keepalive_data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=1m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  frog_keepalive_ssh:
+  frog_keepalive_data:
