@@ -94,8 +94,9 @@ services:
       caddy_202: komodo_externum.lab.wsiwiec.com
       caddy_202.reverse_proxy: externum.lab.wsiwiec.com:9120
 
-      caddy_300: openwrt.lab.wsiwiec.com
-      caddy_300.reverse_proxy: openwrt.raw.lab.wsiwiec.com
+      # OpenWrt LXC is retired (stopped, kept for rollback); routing is done by the UCG Ultra now.
+      # caddy_300: openwrt.lab.wsiwiec.com
+      # caddy_300.reverse_proxy: openwrt.raw.lab.wsiwiec.com
 
       caddy_301: proxmox.lab.wsiwiec.com
       caddy_301.reverse_proxy.import: https
