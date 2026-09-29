@@ -240,15 +240,15 @@ filtering:
   rewrites:
     - domain: openwrt.raw.lab.wsiwiec.com
       answer: 10.0.0.10
-      enabled: true
+      enabled: false
     - domain: proxmox.raw.lab.wsiwiec.com
-      answer: 10.0.0.2
+      answer: 10.1.0.2
       enabled: true
     - domain: core.lab.wsiwiec.com
-      answer: 10.0.0.53
+      answer: 10.2.0.53
       enabled: true
     - domain: internum.lab.wsiwiec.com
-      answer: 10.1.0.100
+      answer: 10.2.0.101
       enabled: true
     - domain: externum.lab.wsiwiec.com
       answer: 10.2.0.100
@@ -261,7 +261,7 @@ filtering:
       enabled: true
     - domain: openwrt.lab.wsiwiec.com
       answer: core.lab.wsiwiec.com
-      enabled: true
+      enabled: false
     - domain: proxmox.lab.wsiwiec.com
       answer: core.lab.wsiwiec.com
       enabled: true
@@ -278,7 +278,7 @@ filtering:
       answer: externum.lab.wsiwiec.com
       enabled: true
     - domain: "*.lab.wsiwiec.com"
-      answer: 10.1.0.100
+      answer: 10.2.0.101
       enabled: true
     - domain: "*.wsiwiec.com"
       answer: 10.2.0.100
