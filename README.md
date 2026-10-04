@@ -25,7 +25,7 @@ Hosts sit on VLANs routed by a UniFi UCG Ultra (zone-based firewall):
 |---|---|---|---|
 | 1 | Management | `10.1.0.0/24` | UCG `10.1.0.1`, Proxmox `10.1.0.2` |
 | 10 | Personal | `10.0.0.0/24` | Wi-Fi clients |
-| 20 | Infra | `10.2.0.0/24` | `core` (komoda) `10.2.0.53`, `externum` `10.2.0.100`, `internum` `10.2.0.101` |
+| 20 | Infra | `10.20.0.0/24` | `core` (komoda) `10.20.0.53`, `externum` `10.20.0.100`, `internum` `10.20.0.101` |
 
 - The stack LXCs are tagged VLAN 20 on the VLAN-aware `vmbr0` bridge in Proxmox
 - Management and Personal can reach Infra; Infra cannot open connections to Management or Personal unless the UCG has an explicit allow policy (e.g. `core` -> Proxmox `:8006` for `proxmox.lab.wsiwiec.com`)
